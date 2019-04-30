@@ -128,13 +128,24 @@ const appendPageLinks = (studentList) => {
 // initail pagination call.
 appendPageLinks(studentList);
 
+// function curtesy of Prakash Poudel
+// https://www.sharmaprakash.com.np/javascript/ie-alternative-to-inludes/
+function includes(container, value) {
+    var returnValue = false;
+    var pos = container.indexOf(value);
+    if (pos >= 0) {
+        returnValue = true;
+    }
+    return returnValue;
+}
+
 // Add event listener keyup.
 document.getElementById('input').addEventListener('keyup', function () {
 
     // for every student if syudent name is not in search then remove
     // or make it "invisible" to shoePage.
     for (var i = 0; i < studentList.length; i += 1) {
-        if (!(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase().includes(this.value.toUpperCase()))) {
+        if (!includes(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase(), this.value.toUpperCase())) {
             studentList[i].className = 'student-item cf invisible';
         } else {
             studentList[i].className = 'student-item cf';
@@ -153,7 +164,7 @@ document.getElementById('button').addEventListener('click', function () {
     // for every student if syudent name is not in search then remove
     // or make it "invisible" to shoePage.
     for (var i = 0; i < studentList.length; i += 1) {
-        if (!(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase().includes(document.getElementById('input').value.toUpperCase()))) {
+        if (!(includes(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase(), document.getElementById('input').value.toUpperCase()))) {
             studentList[i].className = 'student-item cf invisible';
         } else {
             studentList[i].className = 'student-item cf';
