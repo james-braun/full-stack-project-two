@@ -3,10 +3,15 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
 // Holds list of students from html.
 const studentList = document.getElementsByClassName("student-list")[0].getElementsByTagName("li");
+
+// create and append a search element to the page.
+const search = document.createElement('div');
+search.className = "student-search";
+search.innerHTML = `<input id="input" type="search" value="" name="student_search" placeholder="Search for atudents..."><button id="button" type="submit" name="student_search">search</button>`
+document.getElementsByClassName("page-header")[0].appendChild(search);
+
 
 const showPage = (list, page, pageSize) => {
 
@@ -15,19 +20,35 @@ const showPage = (list, page, pageSize) => {
     var endIndex = page * pageSize;
 
     // itterate though list of stuents and show and hide them
-    // based on whether they are between the indexes.
-    for (var i = 0; i < list.length; i += 1) {
-        if (i < startIndex || i >= endIndex) {
-            list[i].style.display = "none";
+    // based on whether they are between the indexes and
+    // are not in the search.
+    var i = 0;
+    var j = 0;
+    while (i < list.length) {
+
+        // if student matches search then check if they are within the indices.
+        if (list[i].className != 'student-item cf invisible') {
+
+            // if student not within the indices then don't display.
+            // else display.
+            if ((j < startIndex || j >= endIndex)) {
+                list[i].style.display = "none";
+            } else {
+                list[i].style.display = "block";
+            }
+            j += 1;
         } else {
-            list[i].style.display = "block";
+
+            // if student does not match search don't display.
+            list[i].style.display = "none";
         }
+        i += 1;
     }
 }
 
 const createPagination = (page, numberOfPageLinks) => {
 
-    var element = document.createElement('div')  // Holds element to be created.
+    var element = document.createElement('div');  // Holds element to be created.
 
     // Add a class name to the element.
     element.className = "pagination";
@@ -51,11 +72,27 @@ const createPagination = (page, numberOfPageLinks) => {
     document.getElementsByClassName("page")[0].appendChild(element);
 }
 
+const getStudentListLenght = (studentList) => {
+
+    // Holds the number of students in the search.
+    var result = 0;
+
+    // Itterate over studentList and count the number of students in the search.
+    for (var i = 0; i < studentList.length; i += 1) {
+        if (studentList[i].className === 'student-item cf') {
+            result += 1;
+        }
+    }
+
+    // retrun the number of students in the search.
+    return result;
+}
+
 const appendPageLinks = (studentList) => {
 
     var page = 1;  // Which page is being displayed.
     var listSize = 10; // the maximum students per page.
-    var numberOfPageLinks = Math.ceil(studentList.length / listSize); // The number of pagination links.
+    var numberOfPageLinks = Math.ceil(getStudentListLenght(studentList) / listSize); // The number of pagination links.
 
     // Show one page of students.
     showPage(studentList, page, listSize);
@@ -88,4 +125,43 @@ const appendPageLinks = (studentList) => {
     };
 }
 
+// initail pagination call.
 appendPageLinks(studentList);
+
+// Add event listener keyup.
+document.getElementById('input').addEventListener('keyup', function () {
+
+    // for every student if syudent name is not in search then remove
+    // or make it "invisible" to shoePage.
+    for (var i = 0; i < studentList.length; i += 1) {
+        if (!(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase().includes(this.value.toUpperCase()))) {
+            studentList[i].className = 'student-item cf invisible';
+        } else {
+            studentList[i].className = 'student-item cf';
+        }
+    }
+
+    // remove pagination and add back new pagination
+    // and reset page.
+    document.getElementsByClassName('pagination')[0].remove();
+    appendPageLinks(studentList);
+});
+
+// Add click event,
+document.getElementById('button').addEventListener('click', function () {
+
+    // for every student if syudent name is not in search then remove
+    // or make it "invisible" to shoePage.
+    for (var i = 0; i < studentList.length; i += 1) {
+        if (!(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase().includes(document.getElementById('input').value.toUpperCase()))) {
+            studentList[i].className = 'student-item cf invisible';
+        } else {
+            studentList[i].className = 'student-item cf';
+        }
+    }
+
+    // remove pagination and add back new pagination
+    // and reset page.
+    document.getElementsByClassName('pagination')[0].remove();
+    appendPageLinks(studentList);
+});
