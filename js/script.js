@@ -9,11 +9,11 @@ const studentList = document.getElementsByClassName("student-list")[0].getElemen
 // create and append a search element to the page.
 const search = document.createElement('div');
 search.className = "student-search";
-search.innerHTML = `<input id="input" type="search" value="" name="student_search" placeholder="Search for atudents..."><button id="button" type="submit" name="student_search">search</button>`
+search.innerHTML = "<input id=\"input\" type=\"search\" value=\"\" name=\"student_search\" placeholder=\"Search for atudents...\"><button id=\"button\" type=\"submit\" name=\"student_search\">search</button>"
 document.getElementsByClassName("page-header")[0].appendChild(search);
 
 
-const showPage = (list, page, pageSize) => {
+function showPage(list, page, pageSize) {
 
     // Set beginning and end indexes.
     var startIndex = page * pageSize - pageSize;
@@ -46,7 +46,7 @@ const showPage = (list, page, pageSize) => {
     }
 }
 
-const createPagination = (page, numberOfPageLinks) => {
+function createPagination(page, numberOfPageLinks) {
 
     var element = document.createElement('div');  // Holds element to be created.
 
@@ -54,25 +54,25 @@ const createPagination = (page, numberOfPageLinks) => {
     element.className = "pagination";
 
     // Create ul element.
-    element.innerHTML = `<ul>`;
+    element.innerHTML = "<ul>";
 
     // create each li and 'a' element inside ul element.
     for (var i = 1; i <= numberOfPageLinks; i += 1) {
         if (i === page) {
-            element.innerHTML += `<li><a class="active" href="#">${i}</a></li>`;
+            element.innerHTML += "<li><a class=\"active\" href=\"#\">" + i + "</a></li>";
         } else {
-            element.innerHTML += `<li><a href="#">${i}</a></li>`;
+            element.innerHTML += "<li><a href=\"#\">" + i + "</a></li>";
         }
     }
 
     // Close ul element.
-    element.innerHTML += `</ul>`;
+    element.innerHTML += "</ul>";
 
     // Add element to the page.
     document.getElementsByClassName("page")[0].appendChild(element);
 }
 
-const getStudentListLenght = (studentList) => {
+function getStudentListLenght(studentList) {
 
     // Holds the number of students in the search.
     var result = 0;
@@ -88,7 +88,7 @@ const getStudentListLenght = (studentList) => {
     return result;
 }
 
-const appendPageLinks = (studentList) => {
+function appendPageLinks(studentList) {
 
     var page = 1;  // Which page is being displayed.
     var listSize = 10; // the maximum students per page.
@@ -154,7 +154,7 @@ document.getElementById('input').addEventListener('keyup', function () {
 
     // remove pagination and add back new pagination
     // and reset page.
-    document.getElementsByClassName('pagination')[0].remove();
+    document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('pagination')[0]);
     appendPageLinks(studentList);
 });
 
@@ -173,6 +173,6 @@ document.getElementById('button').addEventListener('click', function () {
 
     // remove pagination and add back new pagination
     // and reset page.
-    document.getElementsByClassName('pagination')[0].remove();
+    document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('pagination')[0]);
     appendPageLinks(studentList);
 });
