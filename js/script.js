@@ -6,11 +6,20 @@ FSJS project 2 - List Filter and Pagination
 // Holds list of students from html.
 const studentList = document.getElementsByClassName("student-list")[0].getElementsByTagName("li");
 
-// create and append a search element to the page.
+// Create and append a search element to the page.
 const search = document.createElement('div');
 search.className = "student-search";
 search.innerHTML = "<input id=\"input\" type=\"search\" value=\"\" name=\"student_search\" placeholder=\"Search for atudents...\"><button id=\"button\" type=\"submit\" name=\"student_search\">search</button>"
 document.getElementsByClassName("page-header")[0].appendChild(search);
+
+// Create a message for when there are no search resullts.
+const noResults = document.createElement('h1');
+noResults.className = "result";
+noResults.innerHTML = "Search Yielded No Results..."
+document.getElementsByClassName("page")[0].appendChild(noResults);
+
+// Hide the message.
+document.getElementsByClassName("page")[0].getElementsByTagName('h1')[0].style.display = "none";
 
 
 function showPage(list, page, pageSize) {
@@ -82,6 +91,13 @@ function getStudentListLenght(studentList) {
         if (studentList[i].className === 'student-item cf') {
             result += 1;
         }
+    }
+
+    // If there are no matches display no search result message.
+    if (result === 0) {
+        document.getElementsByClassName("page")[0].getElementsByTagName('h1')[0].style.display = "block";
+    } else {
+        document.getElementsByClassName("page")[0].getElementsByTagName('h1')[0].style.display = "none";
     }
 
     // retrun the number of students in the search.
