@@ -158,8 +158,8 @@ function includes(container, value) {
 // Add event listener keyup.
 document.getElementById('input').addEventListener('keyup', function () {
 
-    // for every student if syudent name is not in search then remove
-    // or make it "invisible" to shoePage.
+    // for every student if student name is not in search then remove
+    // or make it "invisible" to showPage.
     for (var i = 0; i < studentList.length; i += 1) {
         if (!includes(studentList[i].getElementsByTagName('h3')[0].innerHTML.toUpperCase(), this.value.toUpperCase())) {
             studentList[i].className = 'student-item cf invisible';
